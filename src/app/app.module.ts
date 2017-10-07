@@ -1,6 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { MobxAngularModule } from 'mobx-angular';
 
 import { AppComponent } from './app.component';
 import { ArticleModule } from './article/article.module';
@@ -40,7 +41,8 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], { useHash: tru
     ProfileModule,
     rootRouting,
     SharedModule,
-    SettingsModule
+    SettingsModule,
+    MobxAngularModule
   ],
   providers: [
     ApiService,
