@@ -11,11 +11,11 @@
       </a>
     </div>
 
-    <div [hidden]="commonStore.isLoadingTags">
+    <div [hidden]="!commonStore.isLoadingTags">
       Loading tags...
     </div>
 
-    <div [hidden]="!commonStore.isLoadingTags || commonStore.tags.length == 0">
+    <div [hidden]="commonStore.isLoadingTags || commonStore.tags.length > 0">
       No tags are here... yet.
     </div>
   </div>

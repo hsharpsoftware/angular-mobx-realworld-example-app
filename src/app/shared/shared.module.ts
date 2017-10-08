@@ -9,13 +9,16 @@ import { FavoriteButtonComponent, FollowButtonComponent } from './buttons';
 import { ListErrorsComponent } from './list-errors.component';
 import { ShowAuthedDirective } from './show-authed.directive';
 
+import { MobxAngularModule } from 'mobx-angular';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    RouterModule
+    RouterModule,
+    MobxAngularModule    
   ],
   declarations: [
     ArticleListComponent,
@@ -38,7 +41,8 @@ import { ShowAuthedDirective } from './show-authed.directive';
     HttpModule,
     ListErrorsComponent,
     RouterModule,
-    ShowAuthedDirective
+    ShowAuthedDirective,
+    MobxAngularModule
   ]
 })
 export class SharedModule {}
