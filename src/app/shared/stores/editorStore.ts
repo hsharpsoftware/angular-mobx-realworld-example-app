@@ -1,7 +1,9 @@
 import { observable, action } from 'mobx';
 import articlesStore from './articlesStore';
+import { Article } from 'app/shared';
 
 class EditorStore {
+  comments: any[];
 
   @observable inProgress = false;
   @observable errors = undefined;
@@ -23,7 +25,7 @@ class EditorStore {
     if (!this.articleSlug) return Promise.resolve();
     this.inProgress = true;
     return articlesStore.loadArticle(this.articleSlug, { acceptCached: true })
-      .then(action((article) => {
+      .then(action((article:Article) => {
         if (!article) throw new Error('Can\'t load original article');
         this.title = article.title;
         this.description = article.description;
@@ -72,7 +74,7 @@ class EditorStore {
       slug: this.articleSlug,
     };
     return (this.articleSlug ? articlesStore.updateArticle(article) : articlesStore.createArticle(article))
-      .catch(action((err) => {
+      .catch(action((err:any) => {
         this.errors = err.response && err.response.body && err.response.body.errors; throw err;
       }))
       .finally(action(() => { this.inProgress = false; }));

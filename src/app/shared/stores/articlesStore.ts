@@ -16,7 +16,7 @@ export class ArticlesStore {
   @observable isLoading = false;
   @observable page = 0;
   @observable totalPagesCount = 0;
-  @observable articlesRegistry : ObservableMap<Article> = observable.map();
+  @observable articlesRegistry = observable.map();
   @observable predicate : ArticleStorePredicate = null;
 
   @computed get articles() {
@@ -28,8 +28,8 @@ export class ArticlesStore {
     this.page = 0;
   }
 
-  getArticle(slug) {
-    return this.articlesRegistry.get(slug);
+  getArticle(slug) : Article {
+    return <Article>(this.articlesRegistry.get(slug));
   }
 
   @action setPage(page) {
@@ -55,7 +55,7 @@ export class ArticlesStore {
     return this.$req()
       .then(action(({ articles, articlesCount }) => {
         this.articlesRegistry.clear();
-        articles.forEach(article => this.articlesRegistry.set(article.slug, article));
+        articles.forEach((article:Article) => this.articlesRegistry.set(article.slug, article));
         this.totalPagesCount = Math.ceil(articlesCount / LIMIT);
       }))
       .finally(action(() => { this.isLoading = false; }));
@@ -105,7 +105,7 @@ export class ArticlesStore {
     return Promise.resolve();
   }
 
-  @action createArticle(article) {
+  @action createArticle(article) : Article {
     return agent.Articles.create(article)
       .then(({ article }) => {
         this.articlesRegistry.set(article.slug, article);

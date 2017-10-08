@@ -1,5 +1,5 @@
 import superagentPromise from 'superagent-promise';
-import _superagent from 'superagent';
+import * as _superagent from 'superagent';
 import authStore from './stores/authStore';
 import commonStore from './stores/commonStore';
 
@@ -84,7 +84,7 @@ const Articles = {
     requests.get(`/articles?favorited=${encode(author)}&${limit(5, page)}`),
   feed: (page = 0, lim = 10) =>
     requests.get(`/articles/feed?${limit(lim, page)}`),
-  get: slug =>
+  get: slug  =>
     requests.get(`/articles/${slug}`),
   unfavorite: slug =>
     requests.del(`/articles/${slug}/favorite`),

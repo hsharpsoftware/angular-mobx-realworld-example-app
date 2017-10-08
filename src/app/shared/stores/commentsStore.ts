@@ -21,7 +21,7 @@ export class CommentsStore {
     this.commentErrors = undefined;
     return agent.Comments.forArticle(this.articleSlug)
       .then(action(({ comments }) => { this.comments = comments; }))
-      .catch(action(err => {
+      .catch(action((err:any) => {
         this.commentErrors = err.response && err.response.body && err.response.body.errors;
         throw err;
       }))
