@@ -1,0 +1,22 @@
+<div class="col-md-3" *mobxAutorun>
+  <div class="sidebar" >
+    <p>Popular Tags</p>
+
+    <div class="tag-list">
+      <a href="#"
+         *ngFor="let tag of commonStore.tags"               
+         (click)="setListTo('all', {tag: tag})"
+         class="tag-default tag-pill">
+         {{ tag.title }}
+      </a>
+    </div>
+
+    <div [hidden]="commonStore.isLoadingTags">
+      Loading tags...
+    </div>
+
+    <div [hidden]="!commonStore.isLoadingTags || commonStore.tags.length == 0">
+      No tags are here... yet.
+    </div>
+  </div>
+</div>

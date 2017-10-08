@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { HomeAuthResolver } from './home-auth-resolver.service';
 import { SharedModule } from '../shared';
+import { TagsComponent } from './tags/tags.component';
 
 const homeRouting: ModuleWithProviders = RouterModule.forChild([
   {
@@ -21,7 +22,8 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
     SharedModule
   ],
   declarations: [
-    HomeComponent
+    HomeComponent,
+    TagsComponent
   ],
   providers: [
     HomeAuthResolver

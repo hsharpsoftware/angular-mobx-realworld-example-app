@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 import { Router } from '@angular/router';
 
 import { ArticleListConfig, UserService } from '../shared';
-import CommonStore from 'app/shared/stores/commonStore';
 
 @Component({
   selector: 'home-page',
@@ -19,7 +18,6 @@ export class HomeComponent implements OnInit {
 
   isAuthenticated: boolean;
   listConfig: ArticleListConfig = new ArticleListConfig();
-  commonStore = CommonStore;
 
   ngOnInit() {
     this.userService.isAuthenticated.subscribe(
@@ -34,7 +32,6 @@ export class HomeComponent implements OnInit {
         }
       }
     );
-    this.commonStore.loadTags();
   }
 
   setListTo(type: string = '', filters: Object = {}) {
