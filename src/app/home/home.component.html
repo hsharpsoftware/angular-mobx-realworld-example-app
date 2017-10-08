@@ -1,4 +1,4 @@
-<div class="home-page">
+<div class="home-page" >
 
   <div class="banner" *showAuthed="false">
     <div class="container">
@@ -38,24 +38,24 @@
         <article-list [limit]="10" [config]="listConfig"></article-list>
       </div>
 
-      <div class="col-md-3">
-        <div class="sidebar">
+      <div class="col-md-3" *mobxAutorun>
+        <div class="sidebar" >
           <p>Popular Tags</p>
 
           <div class="tag-list">
             <a href="#"
-               *ngFor="let tag of tags"
+               *ngFor="let tag of commonStore.tags"               
                (click)="setListTo('all', {tag: tag})"
                class="tag-default tag-pill">
                {{ tag }}
             </a>
           </div>
 
-          <div [hidden]="tagsLoaded">
+          <div [hidden]="commonStore.isLoadingTags">
             Loading tags...
           </div>
 
-          <div [hidden]="!tagsLoaded || tags.length == 0">
+          <div [hidden]="!commonStore.isLoadingTags || commonStore.tags.length == 0">
             No tags are here... yet.
           </div>
         </div>

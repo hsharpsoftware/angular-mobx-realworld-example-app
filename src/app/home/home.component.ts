@@ -1,27 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ArticleListConfig, TagsService, UserService } from '../shared';
+import { ArticleListConfig, UserService } from '../shared';
 import CommonStore from 'app/shared/stores/commonStore';
 
 @Component({
   selector: 'home-page',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
-    private tagsService: TagsService,
-    private userService: UserService
+    private userService: UserService,
   ) {
-    CommonStore.loadTags();
   }
 
   isAuthenticated: boolean;
   listConfig: ArticleListConfig = new ArticleListConfig();
-  tags = CommonStore.tags; 
-  tagsLoaded = !CommonStore.isLoadingTags;
+  commonStore = CommonStore;
 
   ngOnInit() {
     this.userService.isAuthenticated.subscribe(
@@ -36,6 +34,7 @@ export class HomeComponent implements OnInit {
         }
       }
     );
+    this.commonStore.loadTags();
   }
 
   setListTo(type: string = '', filters: Object = {}) {

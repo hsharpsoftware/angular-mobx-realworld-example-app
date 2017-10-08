@@ -1,5 +1,6 @@
 import { observable, action, reaction, toJS } from 'mobx';
 import agent from '../agent';
+import { Injectable } from '@angular/core';
 
 class CommonStore {
 
@@ -26,7 +27,7 @@ class CommonStore {
   @action loadTags() {
     this.isLoadingTags = true;
     return agent.Tags.getAll()
-      .then(action(({ tags }) => { this.tags = tags.map(t => t.toLowerCase()); console.log(this.tags); }))
+      .then(action(({ tags }) => { this.tags = tags.map(t => t.toLowerCase()); }))
       .finally(action(() => { this.isLoadingTags = false; }));
   }
 
