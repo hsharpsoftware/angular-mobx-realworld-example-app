@@ -25,7 +25,9 @@
     "mobx": "^3.3.1",
     "mobx-angular": "^1.8.1",
     "ts-helpers": "^1.1.2",
-    "zone.js": "^0.8.4"
+    "zone.js": "^0.8.4",
+    "superagent": "^3.6.0",
+    "superagent-promise": "^1.1.0"
   },
   "devDependencies": {
     "@angular/cli": "^1.0.0",
