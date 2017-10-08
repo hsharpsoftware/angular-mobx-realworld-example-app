@@ -1,4 +1,4 @@
-<div class="home-page" >
+<div class="home-page">
 
   <div class="banner" *showAuthed="false">
     <div class="container">
@@ -38,7 +38,7 @@
         <article-list [limit]="10" [config]="listConfig"></article-list>
       </div>
 
-      <div class="col-md-3" *mobxAutorun>
+      <div class="col-md-3">
         <div class="sidebar" >
           <p>Popular Tags</p>
 
@@ -47,7 +47,7 @@
                *ngFor="let tag of commonStore.tags"               
                (click)="setListTo('all', {tag: tag})"
                class="tag-default tag-pill">
-               {{ tag }}
+               {{ tag.title }}
             </a>
           </div>
 

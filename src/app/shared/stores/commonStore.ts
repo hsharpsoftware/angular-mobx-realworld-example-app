@@ -1,6 +1,15 @@
 import { observable, action, reaction, toJS } from 'mobx';
 import agent from '../agent';
 import { Injectable } from '@angular/core';
+import { computed } from 'mobx-angular';
+
+class Tag {
+  @observable title: string;
+
+  constructor( title) {
+    this.title = title;
+  }
+}
 
 class CommonStore {
 
@@ -8,7 +17,7 @@ class CommonStore {
   @observable token = window.localStorage.getItem('jwt');
   @observable appLoaded = false;
 
-  @observable tags : string[] = [];
+  @observable tags = [];
   @observable isLoadingTags = false;
 
   constructor() {
@@ -24,10 +33,14 @@ class CommonStore {
     );
   }
 
+  @computed get allTags() {
+    return this.tags;
+  }
+
   @action loadTags() {
     this.isLoadingTags = true;
     return agent.Tags.getAll()
-      .then(action(({ tags }) => { this.tags = tags.map(t => t.toLowerCase()); }))
+      .then(action(({ tags }) => { tags.map(t => this.tags.push(new Tag(t.toLowerCase()))); console.log(this.tags); }))
       .finally(action(() => { this.isLoadingTags = false; }));
   }
 
