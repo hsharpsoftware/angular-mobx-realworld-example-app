@@ -1,6 +1,7 @@
 import { observable, action, computed, ObservableMap } from 'mobx';
 import agent from '../agent';
 import { Article } from 'app/shared';
+import { Injectable } from '@angular/core';
 
 const LIMIT = 10;
 
@@ -128,4 +129,6 @@ export class ArticlesStore {
   }
 }
 
-export default new ArticlesStore();
+const articlesStore = new ArticlesStore();
+
+export default articlesStore;

@@ -3,17 +3,19 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import { ApiService } from './api.service';
+import CommonStore from 'app/shared/stores/commonStore';
 
 @Injectable()
 export class TagsService {
   constructor (
-    private apiService: ApiService
-  ) {}
+  ) {
+    CommonStore.loadTags();    
+  }
 
-  getAll(): Observable<[string]> {
-    return this.apiService.get('/tags')
-           .map(data => data.tags);
+  getAll(): string[] {
+    let result = CommonStore.tags;
+    console.log(result);
+    return result;
   }
 
 }

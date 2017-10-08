@@ -1,4 +1,4 @@
-import { observable, action, reaction } from 'mobx';
+import { observable, action, reaction, toJS } from 'mobx';
 import agent from '../agent';
 
 class CommonStore {
@@ -7,7 +7,7 @@ class CommonStore {
   @observable token = window.localStorage.getItem('jwt');
   @observable appLoaded = false;
 
-  @observable tags = [];
+  @observable tags : string[] = [];
   @observable isLoadingTags = false;
 
   constructor() {
@@ -26,8 +26,8 @@ class CommonStore {
   @action loadTags() {
     this.isLoadingTags = true;
     return agent.Tags.getAll()
-      .then(action(({ tags }) => { this.tags = tags.map(t => t.toLowerCase()); }))
-      .finally(action(() => { this.isLoadingTags = false; }))
+      .then(action(({ tags }) => { this.tags = tags.map(t => t.toLowerCase()); console.log(this.tags); }))
+      .finally(action(() => { this.isLoadingTags = false; }));
   }
 
   @action setToken(token) {
@@ -40,4 +40,6 @@ class CommonStore {
 
 }
 
-export default new CommonStore();
+const commonStore = new CommonStore();
+
+export default commonStore;

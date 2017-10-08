@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ArticleListConfig, TagsService, UserService } from '../shared';
+import CommonStore from 'app/shared/stores/commonStore';
 
 @Component({
   selector: 'home-page',
@@ -13,12 +14,14 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private tagsService: TagsService,
     private userService: UserService
-  ) {}
+  ) {
+    CommonStore.loadTags();
+  }
 
   isAuthenticated: boolean;
   listConfig: ArticleListConfig = new ArticleListConfig();
-  tags: Array<string> = [];
-  tagsLoaded = false;
+  tags = CommonStore.tags; 
+  tagsLoaded = !CommonStore.isLoadingTags;
 
   ngOnInit() {
     this.userService.isAuthenticated.subscribe(
@@ -33,12 +36,6 @@ export class HomeComponent implements OnInit {
         }
       }
     );
-
-    this.tagsService.getAll()
-    .subscribe(tags => {
-      this.tags = tags;
-      this.tagsLoaded = true;
-    });
   }
 
   setListTo(type: string = '', filters: Object = {}) {

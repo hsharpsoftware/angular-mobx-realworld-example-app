@@ -17,7 +17,9 @@ export class EditableArticleResolver implements Resolve<Article> {
     state: RouterStateSnapshot
   ): Observable<any> {
 
-    return this.articlesService.get(route.params['slug'])
+    return Observable.create( function(observer) {
+      observer.next(this.articlesService.get(route.params['slug']));
+    } )
            .map(
              article => {
                if (this.userService.getCurrentUser().username === article.author.username) {

@@ -27,6 +27,7 @@
     "mobx-angular": "^1.8.1",
     "superagent": "^3.6.0",
     "superagent-promise": "^1.1.0",
+    "promise.prototype.finally": "^3.0.0",
     "ts-helpers": "^1.1.2",
     "zone.js": "^0.8.4"
   },

@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { Observable } from 'rxjs/Rx';
 
 import { Article, ArticlesService, UserService } from '../shared';
+import ArticlesStore from 'app/shared/stores/articlesStore';
 
 @Injectable()
 export class ArticleResolver implements Resolve<Article> {
@@ -17,8 +18,8 @@ export class ArticleResolver implements Resolve<Article> {
     state: RouterStateSnapshot
   ): Observable<any> {
 
-    return this.articlesService.get(route.params['slug'])
-           .catch((err) => this.router.navigateByUrl('/'));
-
+    return Observable.create( function(observer) {
+      observer.next(ArticlesStore.getArticle(route.params['slug']));
+    } );    
   }
 }

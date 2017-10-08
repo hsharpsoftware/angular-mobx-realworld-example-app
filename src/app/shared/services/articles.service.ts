@@ -6,11 +6,12 @@ import 'rxjs/add/operator/catch';
 
 import { ApiService } from './api.service';
 import { Article, ArticleListConfig } from '../models';
+import ArticlesStore from 'app/shared/stores/articlesStore';
 
 @Injectable()
 export class ArticlesService {
   constructor (
-    private apiService: ApiService
+    private apiService: ApiService,
   ) {}
 
   query(config: ArticleListConfig): Observable<{articles: Article[], articlesCount: number}> {
@@ -29,9 +30,8 @@ export class ArticlesService {
     ).map(data => data);
   }
 
-  get(slug): Observable<Article> {
-    return this.apiService.get('/articles/' + slug)
-           .map(data => data.article);
+  get(slug): Article {
+    return ArticlesStore.getArticle(slug);
   }
 
   destroy(slug) {
