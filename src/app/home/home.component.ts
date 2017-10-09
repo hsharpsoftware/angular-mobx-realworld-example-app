@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 
 import { ArticleListConfig, UserService } from '../shared';
 
+import UserStore from 'app/shared/stores/userStore';
+
 @Component({
   selector: 'home-page',
   templateUrl: './home.component.html',
@@ -16,31 +18,14 @@ export class HomeComponent implements OnInit {
   ) {
   }
 
-  isAuthenticated: boolean;
+  userStore = UserStore;
+
   listConfig: ArticleListConfig = new ArticleListConfig();
 
   ngOnInit() {
-    this.userService.isAuthenticated.subscribe(
-      (authenticated) => {
-        this.isAuthenticated = authenticated;
-
-        // set the article list accordingly
-        if (authenticated) {
-          this.setListTo('feed');
-        } else {
-          this.setListTo('all');
-        }
-      }
-    );
   }
 
   setListTo(type: string = '', filters: Object = {}) {
-    // If feed is requested but user is not authenticated, redirect to login
-    if (type === 'feed' && !this.isAuthenticated) {
-      this.router.navigateByUrl('/login');
-      return;
-    }
-
     // Otherwise, set the list object
     this.listConfig = {type: type, filters: filters};
   }

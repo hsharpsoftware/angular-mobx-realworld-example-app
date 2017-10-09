@@ -5,7 +5,7 @@
     <div class="tag-list">
       <a href="#"
          *ngFor="let tag of commonStore.tags"               
-         (click)="setListTo('all', {tag: tag})"
+         (click)="setListTo(tag.title)"
          class="tag-default tag-pill">
          {{ tag.title }}
       </a>

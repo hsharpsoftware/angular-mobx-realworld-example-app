@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import agent from '../agent';
 
 class UserStore {
@@ -26,6 +26,9 @@ class UserStore {
     this.currentUser = undefined;
   }
 
+  @computed get isAuthenticated() {
+    return this.currentUser != undefined;
+  }
 }
 
 export default new UserStore();

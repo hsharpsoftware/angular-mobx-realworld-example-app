@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { Article, ArticleListConfig } from '../models';
 import { ArticlesService } from '../services';
+import ArticlesStore from 'app/shared/stores/articlesStore';
 
 @Component({
   selector: 'article-list',
@@ -11,6 +12,12 @@ export class ArticleListComponent {
   constructor (
     private articlesService: ArticlesService
   ) {}
+
+  articlesStore = ArticlesStore
+  
+  ngOnInit() {
+    this.articlesStore.loadArticles();
+  }
 
   @Input() limit: number;
   @Input()

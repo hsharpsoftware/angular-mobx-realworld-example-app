@@ -44,10 +44,12 @@ export class ArticlesStore {
   }
 
   $req() {
-    if (this.predicate.myFeed) return agent.Articles.feed(this.page, LIMIT);
-    if (this.predicate.favoritedBy) return agent.Articles.favoritedBy(this.predicate.favoritedBy, this.page);
-    if (this.predicate.tag) return agent.Articles.byTag(this.predicate.tag, this.page, LIMIT);
-    if (this.predicate.author) return agent.Articles.byAuthor(this.predicate.author, this.page, LIMIT);
+    if (this.predicate != null ) {
+      if (this.predicate.myFeed) return agent.Articles.feed(this.page, LIMIT);
+      if (this.predicate.favoritedBy) return agent.Articles.favoritedBy(this.predicate.favoritedBy, this.page);
+      if (this.predicate.tag) return agent.Articles.byTag(this.predicate.tag, this.page, LIMIT);
+      if (this.predicate.author) return agent.Articles.byAuthor(this.predicate.author, this.page, LIMIT);
+    }
     return agent.Articles.all(this.page, LIMIT);
   }
 
