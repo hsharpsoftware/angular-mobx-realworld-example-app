@@ -8,11 +8,11 @@ import { UserService } from '../services';
   templateUrl: './header.component.html'
 })
 export class HeaderComponent implements OnInit {
+  currentUser: User;
+
   constructor(
     private userService: UserService
   ) {}
-
-  currentUser: User;
 
   ngOnInit() {
     this.userService.currentUser.subscribe(

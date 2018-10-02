@@ -18,7 +18,7 @@ import { MobxAngularModule } from 'mobx-angular';
     ReactiveFormsModule,
     HttpModule,
     RouterModule,
-    MobxAngularModule    
+    MobxAngularModule
   ],
   declarations: [
     ArticleListComponent,

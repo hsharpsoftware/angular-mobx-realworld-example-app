@@ -1,15 +1,14 @@
-import { observable, action, computed, ObservableMap } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import agent from '../agent';
 import { Article } from 'app/shared';
-import { Injectable } from '@angular/core';
 
 const LIMIT = 10;
 
 export interface ArticleStorePredicate {
-  myFeed : boolean,
-  tag : string,
-  favoritedBy : string,
-  author : string
+  myFeed: boolean,
+  tag: string,
+  favoritedBy: string,
+  author: string
 }
 
 export class ArticlesStore {
@@ -18,7 +17,7 @@ export class ArticlesStore {
   @observable page = 0;
   @observable totalPagesCount = 0;
   @observable articlesRegistry = observable.map();
-  @observable predicate : ArticleStorePredicate = null;
+  @observable predicate: ArticleStorePredicate = null;
 
   @computed get articles() {
     return this.articlesRegistry.values();
@@ -29,7 +28,7 @@ export class ArticlesStore {
     this.page = 0;
   }
 
-  getArticle(slug) : Article {
+  getArticle(slug): Article {
     return <Article>(this.articlesRegistry.get(slug));
   }
 
@@ -38,17 +37,31 @@ export class ArticlesStore {
   }
 
   @action setPredicate(predicate) {
-    if (JSON.stringify(predicate) === JSON.stringify(this.predicate)) return;
+    if (JSON.stringify(predicate) === JSON.stringify(this.predicate)) {
+      return;
+    }
+
     this.clear();
     this.predicate = predicate;
   }
 
   $req() {
-    if (this.predicate != null ) {
-      if (this.predicate.myFeed) return agent.Articles.feed(this.page, LIMIT);
-      if (this.predicate.favoritedBy) return agent.Articles.favoritedBy(this.predicate.favoritedBy, this.page);
-      if (this.predicate.tag) return agent.Articles.byTag(this.predicate.tag, this.page, LIMIT);
-      if (this.predicate.author) return agent.Articles.byAuthor(this.predicate.author, this.page, LIMIT);
+    if (this.predicate != null) {
+      if (this.predicate.myFeed) {
+        return agent.Articles.feed(this.page, LIMIT)
+      }
+
+      if (this.predicate.favoritedBy) {
+        return agent.Articles.favoritedBy(this.predicate.favoritedBy, this.page)
+      }
+
+      if (this.predicate.tag) {
+        return agent.Articles.byTag(this.predicate.tag, this.page, LIMIT)
+      }
+
+      if (this.predicate.author) {
+        return agent.Articles.byAuthor(this.predicate.author, this.page, LIMIT)
+      }
     }
     return agent.Articles.all(this.page, LIMIT);
   }
@@ -56,26 +69,30 @@ export class ArticlesStore {
   @action loadArticles() {
     this.isLoading = true;
     return this.$req()
-      .then(action(({ articles, articlesCount }) => {
-        this.articlesRegistry.clear();
-        articles.forEach((article:Article) => this.articlesRegistry.set(article.slug, article));
-        this.totalPagesCount = Math.ceil(articlesCount / LIMIT);
-      }))
-      .finally(action(() => { this.isLoading = false; }));
+       .then(action(({ articles, articlesCount }) => {
+         this.articlesRegistry.clear();
+         articles.forEach((article: Article) => this.articlesRegistry.set(article.slug, article));
+         this.totalPagesCount = Math.ceil(articlesCount / LIMIT);
+       }))
+       .finally(action(() => { this.isLoading = false }));
   }
 
   @action loadArticle(slug, { acceptCached = false } = {}) {
     if (acceptCached) {
       const article = this.getArticle(slug);
-      if (article) return Promise.resolve(article);
+
+      if (article) {
+        return Promise.resolve(article)
+      }
     }
+
     this.isLoading = true;
     return agent.Articles.get(slug)
       .then(action(({ article }) => {
         this.articlesRegistry.set(article.slug, article);
         return article;
       }))
-      .finally(action(() => { this.isLoading = false; }));
+      .finally(action(() => { this.isLoading = false }));
   }
 
   @action makeFavorite(slug) {
@@ -108,8 +125,8 @@ export class ArticlesStore {
     return Promise.resolve();
   }
 
-  @action createArticle(article) : Article {
-    return agent.Articles.create(article)
+  @action createArticle(newArticle): Article {
+    return agent.Articles.create(newArticle)
       .then(({ article }) => {
         this.articlesRegistry.set(article.slug, article);
         return article;
@@ -127,7 +144,10 @@ export class ArticlesStore {
   @action deleteArticle(slug) {
     this.articlesRegistry.delete(slug);
     return agent.Articles.del(slug)
-      .catch(action(err => { this.loadArticles(); throw err; }));
+      .catch(action(err => {
+        this.loadArticles();
+        throw err;
+      }));
   }
 }
 

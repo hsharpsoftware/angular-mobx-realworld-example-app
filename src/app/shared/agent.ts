@@ -2,10 +2,11 @@ import superagentPromise from 'superagent-promise';
 import * as _superagent from 'superagent';
 import authStore from './stores/authStore';
 import commonStore from './stores/commonStore';
+import { environment } from 'environments/environment';
 
 const superagent = superagentPromise(_superagent, global.Promise);
 
-const API_ROOT = 'https://conduit.productionready.io/api';
+const API_ROOT = environment.api_url;
 
 const encode = encodeURIComponent;
 
