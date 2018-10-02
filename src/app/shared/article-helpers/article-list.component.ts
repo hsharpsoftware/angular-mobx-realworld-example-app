@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { Article, ArticleListConfig } from '../models';
 import { ArticlesService } from '../services';
@@ -8,18 +8,24 @@ import ArticlesStore from 'app/shared/stores/articlesStore';
   selector: 'article-list',
   templateUrl: './article-list.component.html'
 })
-export class ArticleListComponent {
+export class ArticleListComponent implements OnInit {
+  query: ArticleListConfig;
+  results: Article[];
+  loading = false;
+  currentPage = 1;
+  totalPages: Array<number> = [1];
+  articlesStore = ArticlesStore
+
+  @Input() limit: number;
+
   constructor (
     private articlesService: ArticlesService
   ) {}
 
-  articlesStore = ArticlesStore
-  
   ngOnInit() {
     this.articlesStore.loadArticles();
   }
 
-  @Input() limit: number;
   @Input()
   set config(config: ArticleListConfig) {
     if (config) {
@@ -28,12 +34,6 @@ export class ArticleListComponent {
       this.runQuery();
     }
   }
-
-  query: ArticleListConfig;
-  results: Article[];
-  loading = false;
-  currentPage = 1;
-  totalPages: Array<number> = [1];
 
   setPageTo(pageNumber) {
     this.currentPage = pageNumber;

@@ -1,6 +1,5 @@
-import { observable, action, reaction, toJS } from 'mobx';
+import { observable, action, reaction } from 'mobx';
 import agent from '../agent';
-import { Injectable } from '@angular/core';
 import { computed } from 'mobx-angular';
 
 class Tag {

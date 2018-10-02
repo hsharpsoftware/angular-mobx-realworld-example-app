@@ -9,15 +9,16 @@ import { ProfilesService, UserService } from '../services';
   templateUrl: './follow-button.component.html'
 })
 export class FollowButtonComponent {
+  isSubmitting = false;
+
+  @Input() profile: Profile;
+  @Output() onToggle = new EventEmitter<boolean>();
+
   constructor(
     private profilesService: ProfilesService,
     private router: Router,
     private userService: UserService
   ) {}
-
-  @Input() profile: Profile;
-  @Output() onToggle = new EventEmitter<boolean>();
-  isSubmitting = false;
 
   toggleFollowing() {
     this.isSubmitting = true;
@@ -55,8 +56,5 @@ export class FollowButtonComponent {
 
       }
     )
-
-
   }
-
 }

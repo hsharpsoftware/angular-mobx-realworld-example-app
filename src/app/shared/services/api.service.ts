@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { JwtService } from './jwt.service';
+const { api_url: API_URL } = environment;
 
 @Injectable()
 export class ApiService {
@@ -31,14 +32,14 @@ export class ApiService {
   }
 
   get(path: string, params: URLSearchParams = new URLSearchParams()): Observable<any> {
-    return this.http.get(`${environment.api_url}${path}`, { headers: this.setHeaders(), search: params })
+    return this.http.get(`${API_URL}${path}`, { headers: this.setHeaders(), search: params })
     .catch(this.formatErrors)
     .map((res: Response) => res.json());
   }
 
   put(path: string, body: Object = {}): Observable<any> {
     return this.http.put(
-      `${environment.api_url}${path}`,
+      `${API_URL}${path}`,
       JSON.stringify(body),
       { headers: this.setHeaders() }
     )
@@ -48,7 +49,7 @@ export class ApiService {
 
   post(path: string, body: Object = {}): Observable<any> {
     return this.http.post(
-      `${environment.api_url}${path}`,
+      `${API_URL}${path}`,
       JSON.stringify(body),
       { headers: this.setHeaders() }
     )
@@ -58,7 +59,7 @@ export class ApiService {
 
   delete(path): Observable<any> {
     return this.http.delete(
-      `${environment.api_url}${path}`,
+      `${API_URL}${path}`,
       { headers: this.setHeaders() }
     )
     .catch(this.formatErrors)

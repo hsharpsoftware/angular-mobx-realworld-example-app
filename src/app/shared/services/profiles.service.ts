@@ -13,16 +13,16 @@ export class ProfilesService {
   ) {}
 
   get(username: string): Observable<Profile> {
-    return this.apiService.get('/profiles/' + username)
+    return this.apiService.get(`/profiles/${username}`)
            .map((data: {profile: Profile}) => data.profile);
   }
 
   follow(username: string): Observable<Profile> {
-    return this.apiService.post('/profiles/' + username + '/follow')
+    return this.apiService.post(`/profiles/${username}/follow`);
   }
 
   unfollow(username: string): Observable<Profile> {
-    return this.apiService.delete('/profiles/' + username + '/follow')
+    return this.apiService.delete(`/profiles/${username}/follow`);
   }
 
 }

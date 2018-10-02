@@ -27,7 +27,7 @@ class UserStore {
   }
 
   @computed get isAuthenticated() {
-    return this.currentUser != undefined;
+    return this.currentUser !== undefined;
   }
 }
 

@@ -15,7 +15,9 @@ export class ListErrorsComponent {
 
     if (errorList.errors) {
       for (const field in errorList.errors) {
-        this.formattedErrors.push(`${field} ${errorList.errors[field]}`);
+        if (errorList.errors.hasOwnProperty(field)) {
+          this.formattedErrors.push(`${field} ${errorList.errors[field]}`);
+        }
       }
     }
   };

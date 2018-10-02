@@ -22,11 +22,17 @@ class EditorStore {
   }
 
   @action loadInitialData() {
-    if (!this.articleSlug) return Promise.resolve();
+    if (!this.articleSlug) {
+      return Promise.resolve()
+    }
+
     this.inProgress = true;
     return articlesStore.loadArticle(this.articleSlug, { acceptCached: true })
-      .then(action((article:Article) => {
-        if (!article) throw new Error('Can\'t load original article');
+      .then(action((article: Article) => {
+        if (!article) {
+          throw new Error('Can\'t load original article')
+        }
+
         this.title = article.title;
         this.description = article.description;
         this.body = article.body;
@@ -55,7 +61,10 @@ class EditorStore {
   }
 
   @action addTag(tag) {
-    if (this.tagList.includes(tag)) return;
+    if (this.tagList.includes(tag)) {
+      return
+    }
+
     this.tagList.push(tag);
   }
 
@@ -74,7 +83,7 @@ class EditorStore {
       slug: this.articleSlug,
     };
     return (this.articleSlug ? articlesStore.updateArticle(article) : articlesStore.createArticle(article))
-      .catch(action((err:any) => {
+      .catch(action((err: any) => {
         this.errors = err.response && err.response.body && err.response.body.errors; throw err;
       }))
       .finally(action(() => { this.inProgress = false; }));

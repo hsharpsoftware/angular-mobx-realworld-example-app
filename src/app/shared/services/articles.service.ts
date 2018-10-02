@@ -25,7 +25,7 @@ export class ArticlesService {
 
     return this.apiService
     .get(
-      '/articles' + ((config.type === 'feed') ? '/feed' : ''),
+      `/articles${(config.type === 'feed') ? '/feed' : ''}`,
       params
     ).map(data => data);
   }
@@ -35,29 +35,27 @@ export class ArticlesService {
   }
 
   destroy(slug) {
-    return this.apiService.delete('/articles/' + slug);
+    return this.apiService.delete(`/articles/${slug}`);
   }
 
   save(article): Observable<Article> {
     // If we're updating an existing article
     if (article.slug) {
-      return this.apiService.put('/articles/' + article.slug, {article: article})
+      return this.apiService.put(`/articles/${article.slug}`, { article })
              .map(data => data.article);
 
     // Otherwise, create a new article
     } else {
-      return this.apiService.post('/articles/', {article: article})
+      return this.apiService.post('/articles/', { article })
              .map(data => data.article);
     }
   }
 
   favorite(slug): Observable<Article> {
-    return this.apiService.post('/articles/' + slug + '/favorite');
+    return this.apiService.post(`/articles/${slug}/favorite`);
   }
 
   unfavorite(slug): Observable<Article> {
-    return this.apiService.delete('/articles/' + slug + '/favorite');
+    return this.apiService.delete(`/articles/${slug}/favorite`);
   }
-
-
 }
